@@ -1,45 +1,60 @@
 from django.db import models
 from django.utils import timezone
 
-
 # Create your models here.
+
+DEPARTMENT = (
+    ('OMiR', 'Oddział Modernizacji i Remontów'),
+    ('WZP', 'Wydział Zamówień Publicznych'),
+    ('PGK', 'Pion Głównego Księgowego'),
+    ('DYREKTOR', 'Dyrektor'),
+)
+
+STATUS_CHOICES = (
+    ('draft', 'Roboczy'),
+    ('approved', 'Zatwierdzony'),
+    ('rejected', 'Odrzucony'),
+)
+
+ROLE_CHOICES = (
+    ('member', 'Członek Komisji'),
+    ('secretary', 'Sekretarz'),
+    ('chairman', 'Przewodniczący'),
+    ('director', 'Dyrektor'),
+)
+
+
 class Employee(models.Model):
-    ROLE_CHOICES = (
-        ('member', 'Członek Komisji'),
-        ('secretary', 'Sekretarz'),
-        ('chairman', 'Przewodniczący'),
-        ('director', 'Dyrektor'),
-    )
     name = models.CharField(max_length=20)
     surname = models.CharField(max_length=20)
-    department = models.CharField(max_length=20)
-    role = models.CharField(max_length=10,
-                            choices=ROLE_CHOICES,
-                            default='member')
+    department = models.CharField(max_length=8, choices=DEPARTMENT, default='OMiR')
 
 
 class Procedure(models.Model):
-    STATUS_CHOICES = (
-        ('draft', 'Roboczy'),
-        ('approved', 'Zatwierdzony'),
-        ('rejected', 'Odrzucony'),
-    )
-    numer = models.CharField(max_length=14)
+    numer = models.CharField(max_length=20)
     title = models.CharField(max_length=250)
     slug = models.SlugField(max_length=250, unique_for_date='publish')
-    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
     publish = models.DateField(default=timezone.now)
-    open = models.DateTimeField(blank=True, null=True)
+    open = models.DateField(blank=True, null=True)
     close = models.DateField(blank=True, null=True)
     status = models.CharField(max_length=10,
                               choices=STATUS_CHOICES,
                               default='draft')
+    employees = models.ManyToManyField(Employee, through='Role', through_fields=('procedure', 'employee'))
 
     class Meta:
         ordering = ('publish',)
 
     def __str__(self):
         return self.title
+
+
+class Role(models.Model):
+    procedure = models.ForeignKey(Procedure, on_delete=models.CASCADE)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+    roles = models.CharField(max_length=10,
+                             choices=ROLE_CHOICES,
+                             default='member')
 
 
 class Offert(models.Model):
