@@ -1,15 +1,13 @@
-from typing import Tuple
-
 from django.contrib import admin
-from .models import Employee, Procedure, Offert, Company, Role
+from .models import Employee, Procedure, Offert, Role
 
 
 # Register your models here.
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ('surname', 'name', 'department')
-    list_filter = ('surname', 'department')
-    search_fields = ('department', 'surname')
-    ordering = ['surname', 'name']
+    list_display = ('last_name', 'first_name', 'department')
+    list_filter = ('last_name', 'department')
+    search_fields = ('department', 'last_name')
+    ordering = ['last_name', 'first_name']
 
 
 admin.site.register(Employee, EmployeeAdmin)
@@ -29,17 +27,12 @@ admin.site.register(Procedure, ProcedureAdmin)
 
 
 class OffertAdmin(admin.ModelAdmin):
-    list_display = ('submission', 'price', 'lead_time', 'procedure', 'updated', 'votes')
+    list_display = ('procedure', 'submission', 'company_name', 'price', 'lead_time', 'updated', 'votes')
+    list_filter = ('procedure', 'company_name', 'price', 'lead_time')
+    ordering = ['procedure', 'price', 'lead_time']
 
 
 admin.site.register(Offert, OffertAdmin)
-
-
-class CompanyAdmin(admin.ModelAdmin):
-    list_display = ('short_name', 'full_name', 'address', 'mail', 'offert')
-
-
-admin.site.register(Company, CompanyAdmin)
 
 
 class RoleAdmin(admin.ModelAdmin):

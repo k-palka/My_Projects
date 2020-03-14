@@ -1,0 +1,17 @@
+        <div class="pagination center" >
+        <span class="step-links">
+        {% if procedures.has_previous %}
+            <a href="?page={{ procedures.previous_page_number }}">&laquo; poprzednia| </a>
+        {% endif %}
+        {% for page in procedures.paginator.page_range %}
+            {% if page != 1 %}
+            <a href="?page={{ page }}">| {{ page }}</a>
+            {% else %}
+            <a href="?page={{ page }}">{{ page }}</a>
+            {% endif %}
+        {% endfor %}
+        {% if procedures.has_next %}
+        <a href="?page={{ procedures.next_page_number }}">| następna &raquo;</a>
+        {% endif %}
+        </span>
+        </div>

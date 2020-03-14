@@ -25,9 +25,16 @@ ROLE_CHOICES = (
 
 
 class Employee(models.Model):
-    name = models.CharField(max_length=20)
-    surname = models.CharField(max_length=20)
+    first_name = models.CharField(max_length=20)
+    last_name = models.CharField(max_length=20)
     department = models.CharField(max_length=8, choices=DEPARTMENT, default='OMiR')
+
+    @property
+    def name(self):
+        return "{} {}".format(self.first_name, self.last_name)
+
+    def __str__(self):
+        return self.name
 
 
 class Procedure(models.Model):
@@ -46,7 +53,7 @@ class Procedure(models.Model):
         ordering = ('publish',)
 
     def __str__(self):
-        return self.title
+        return f"{self.numer} {self.title}"
 
 
 class Role(models.Model):
@@ -58,17 +65,12 @@ class Role(models.Model):
 
 
 class Offert(models.Model):
-    submission = models.DateTimeField(blank=True, null=True)
+    submission = models.DateField(blank=True, null=True)
+    company_name = models.CharField(max_length=70, default='firma')
+    company_address = models.CharField(max_length=170, default='adres firmy')
+    company_mail = models.EmailField(default='mail@wp.pl')
     price = models.DecimalField(max_digits=10, decimal_places=2)
     lead_time = models.PositiveIntegerField(help_text='w dniach')
     procedure = models.ForeignKey(Procedure, on_delete=models.CASCADE)
-    updated = models.DateTimeField(auto_now=True)
+    updated = models.DateTimeField(auto_now_add=True)
     votes = models.IntegerField(default=0)
-
-
-class Company(models.Model):
-    short_name = models.CharField(max_length=20)
-    full_name = models.CharField(max_length=100)
-    address = models.CharField(max_length=170)
-    mail = models.EmailField()
-    offert = models.ForeignKey(Offert, on_delete=models.CASCADE)
