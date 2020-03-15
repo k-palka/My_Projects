@@ -35,7 +35,10 @@ class MainView(View):
 
 
 class OfferDetailView(View):
-    pass
+
+    def get(self, request, id):
+        offerts = Offert.objects.filter(id=id)
+        return render(request, 'offer_detail.html', context={'offerts': offerts})
 
 
 class OfferListView(View):
@@ -49,6 +52,7 @@ class OfferListView(View):
 
         context = {'offerts': offerts}
         return render(request, 'offer_list.html', context)
+
 
 class OfferAddView(View):
     pass
@@ -71,20 +75,18 @@ class ProcedureListView(View):
         return render(request, 'procedure_list.html', context)
 
 
+# class ProcedureDetailView(DetailView):
+#     model = Procedure
+#     template_name = 'procedure_details.html'
+
 class ProcedureDetailView(View):
+
     def get(self, request, id):
         procedure = Procedure.objects.get(id=id)
-        return render(request, 'procedure_details.html', context={'procedure': procedure})
-
-
-# class PlanDetailView(View):
-#
-#     def get(self, request, id):
-#         plan = Plan.objects.get(id=id)
-#         recipes = RecipePlan.objects.filter(plan_id=id).order_by('order')
-#         days = DayName.objects.filter(recipeplan__plan_id=id).distinct()
-#         print(recipes)
-#         return render(request, 'app-details-schedules.html', context={'plan':plan, 'recipes':recipes,'days':days})
+        offerts = Offert.objects.filter(procedure_id=id).order_by('price')
+        employees = Role.objects.filter(employee_id=id).distinct()
+        return render(request, 'procedure_details.html',
+                      context={'procedure': procedure, 'offerts': offerts, 'employees': employees})
 
 
 class ProcedureAddView(View):

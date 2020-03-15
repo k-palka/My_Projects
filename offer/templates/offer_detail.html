@@ -1,10 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "__base__.html" %}
+{% block title %}{% endblock %}
+{% block content %}
+<div class="dashboard-content border-dashed p-3 m-4 view-height">
 
-</body>
-</html>
+    <div class="mt-4 ml-4 mr-4">
+        <div class="row border-bottom border-3">
+            <div class="col"><h3 class="color-header text-uppercase">Szczegóły
+                oferty do PZP nr: {{ procedure.numer }}</h3></div>
+            <div class="col d-flex justify-content-end mb-2"><a
+                    href="{% url 'offer-list' %}"
+                    class="btn btn-color rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
+            </div>
+        </div>
+
+        <table class="table borderless">
+            <tbody>
+            {% for offer in offerts %}
+            <tr class="d-flex">
+                <th scope="row" class="col-2">Firma (Oferent) </th>
+                <td class="col-7">
+                    {{ offer.company_name }}
+                </td>
+            </tr>
+            <tr class="d-flex">
+                <th scope="row" class="col-2">Data złożenia </th>
+                <td class="col-7">
+                    {{ offer.submission }}
+                </td>
+            </tr>
+            <tr class="d-flex">
+                <th scope="row" class="col-2">Cena</th>
+                <td class="col-7">{{ offer.price }}
+                </td>
+            </tr>
+            <tr class="d-flex">
+                <th scope="row" class="col-2">Czas realizacji (w dniach)</th>
+                <td class="col-7">
+                    {{ offer.lead_time }}
+                </td>
+            </tr>
+             <tr class="d-flex">
+                <th scope="row" class="col-2">Ilość ocen</th>
+                <td class="col-7">
+                    {{ offer.votes  }}
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="row d-flex">
+            <div class="col-5 border-bottom border-3"><h3
+                    class="text-uppercase">Dane kontaktowe</h3></div>
+            <div class="col-1"></div>
+            <div class="col-5 border-bottom border-3"><h3
+                    class="text-uppercase">Oceniający</h3></div>
+        </div>
+        <div class="row d-flex">
+            <div class="col-7 p-4">
+                <p> {{ offer.company_address }}</p>
+                <p> {{ offer.company_mail }}</p>
+            </div>
+            <div class="col-1"></div>
+            <ul class="col-5 p-4 list-unstyled">
+                <li>{{ recipe.ingredients }}</li>
+            </ul>
+        </div>
+            {% endfor %}
+    </div>
+</div>
+{% endblock content %}
