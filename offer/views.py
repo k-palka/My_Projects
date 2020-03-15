@@ -4,6 +4,8 @@ from django.views import View
 import random
 from django.core.paginator import Paginator
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
+from .forms import *
+from django.http import HttpResponse
 
 
 # Create your views here.
@@ -90,7 +92,18 @@ class ProcedureDetailView(View):
 
 
 class ProcedureAddView(View):
-    pass
+
+    def get(self, request):
+        form = AddProcedureForm()
+        return render(request, 'procedure_add.html', {'form': form})
+
+    def post(self, request):
+        form = AddProcedureForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(f"{form.cleaned_data['numer']} - Dodano postępowanie.")
+        else:
+            return render(request, 'procedure_add.html', {'form': form})
 
 
 class ProcedureAddOfferView(View):

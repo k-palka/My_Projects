@@ -38,31 +38,6 @@
     <h2 class="dashboard-content-title">
         <span>Ostatnio dodane postępowanie:</span> {{ last_added_procedure.numer }} <br> {{ last_added_procedure.title }}
     </h2>
-{#    {% for day in days %}#}
-{#    <table class="table">#}
-{#        <thead>#}
-{#                <tr class="d-flex">#}
-{#                    <th class="col-2">{{ day.name }}</th>#}
-{#                    <th class="col-8"></th>#}
-{#                    <th class="col-2"></th>#}
-{#                </tr>#}
-{#        </thead>#}
-{#        <tbody>#}
-{#            {% for recipe in recipes %}#}
-{#            {% if recipe.day_name.name == day.name %}#}
-{#            <tr class="d-flex">#}
-{#                <td class="col-2">{{ recipe.meal_name }}</td>#}
-{#                <td class="col-8">{{ recipe.recipe.name }}</td>#}
-{#                <td class="col-2">#}
-{#                    <a href="{% url 'recipe-detail' recipe.recipe.id %}">#}
-{#                        <button type="button" class="btn btn-primary rounded-0">Szczegóły</button>#}
-{#                    </a>#}
-{#                </td>#}
-{#            </tr>#}
-{#            {% endif %}#}
-{#            {% endfor %}#}
-{#        </tbody>#}
-{#    </table>#}
-{#    {% endfor %}#}
+
 </div>
 {% endblock content %}

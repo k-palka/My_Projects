@@ -1,0 +1,16 @@
+{% extends "__base__.html" %}
+{% block title %}{% endblock title %}
+{% block content %}
+<div class="dashboard-content border-dashed p-3 m-4 view-height">
+    <h1>
+    {{ title|default:"Formularz" }}
+    </h1>
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <input type="submit" value="{{ submit_value|default:"Wyślij" }}">
+    </form>
+{% endblock %}
