@@ -36,38 +36,35 @@
                 </div>
             </div>
         </div>
-
-
-
-{#        {% for day in days %}#}
-{#        <table class="table">#}
-{#            <thead>#}
-{#            <tr class="d-flex">#}
-{#                <th class="col-2">{{day.name}}</th>#}
-{#                <th class="col-7"></th>#}
-{#                <th class="col-1"></th>#}
-{#                <th class="col-2"></th>#}
-{#            </tr>#}
-{#            </thead>#}
-{#            <tbody class="text-color-lighter">#}
-{#            {% for offert in offerts %}#}
-{#            {% if recipe.day_name.name == day.name %}#}
-{#            <tr class="d-flex">#}
-{#                <td class="col-2">{{offert.company_name}}</td>#}
-{#                <td class="col-7">{{offert.offert.price}}</td>#}
-{#                <td class="col-1 center">#}
-{#                    <a href= "offer_detail.html" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>#}
-{#                </td>#}
-{#                <td class="col-2 center">#}
-{#                    <a href="{% url 'offer-detail' offert.offert.id %}"#}
-{#                       class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>#}
-{#                </td>#}
-{#            </tr>#}
-{#            {% endif %}#}
-{#            {% endfor %}#}
-{#            </tbody>#}
-{#        </table>#}
-{#        {% endfor %}#}
-{#    </div>#}
+        {% for procedure in procedures %}
+        <table class="table">
+            <thead>
+            <tr class="d-flex">
+                <th class="col-2">{{day.name}}</th>
+                <th class="col-7"></th>
+                <th class="col-1"></th>
+                <th class="col-2"></th>
+            </tr>
+            </thead>
+            <tbody class="text-color-lighter">
+            {% for offert in offerts %}
+            {% if offert.procedure.numer == procedure.numer %}
+            <tr class="d-flex">
+                <td class="col-2">{{offert.company_name}}</td>
+                <td class="col-7">{{offert.offert.price}}</td>
+                <td class="col-1 center">
+                    <a href= "offer_detail.html" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
+                </td>
+                <td class="col-2 center">
+                    <a href="{% url 'offer-detail' offert.offert.id %}"
+                       class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
+                </td>
+            </tr>
+            {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+        {% endfor %}
+    </div>
 </div>
 {% endblock content %}
