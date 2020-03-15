@@ -5,67 +5,51 @@
 
     <div class="mt-4 ml-4 mr-4">
         <div class="row border-bottom border-3">
-            <div class="col"><h3 class="color-header text-uppercase">Szczegóły
-                oferty do PZP nr: {{ procedure.numer }}</h3></div>
-            <div class="col d-flex justify-content-end mb-2"><a
-                    href="{% url 'offer-list' %}"
-                    class="btn btn-color rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
-            </div>
+            <div class="col"><h3 class="color-header text-uppercase">Szczegóły oferty: </h3></div>
+            <div class="col d-flex justify-content-end mb-2"><a href= "{% url 'offer-list' %}"
+                    class="btn btn-color rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a></div>
         </div>
-
+        <div class="row border-bottom border-2">
+            <div class="col"><h4 class="color-header text-uppercase">{{oferta.procedure}} </h4></div>
+            </div>
         <table class="table borderless">
             <tbody>
-            {% for offer in offerts %}
             <tr class="d-flex">
-                <th scope="row" class="col-2">Firma (Oferent) </th>
-                <td class="col-7">
-                    {{ offer.company_name }}
-                </td>
+                <th scope="row" class="col-5">Data złożenia: </th>
+                <td class="col-3"> {{ oferta.submission }} </td>
+
             </tr>
             <tr class="d-flex">
-                <th scope="row" class="col-2">Data złożenia </th>
-                <td class="col-7">
-                    {{ offer.submission }}
-                </td>
+                <th scope="row" class="col-2">Firma: </th>
+                <td class="col-3"> {{ oferta.company_name }} </td>
+                <th scope="row" class="col-2">Adres: </th>
+                <td class="col-5"> {{ oferta.company_address }}</td>
             </tr>
             <tr class="d-flex">
-                <th scope="row" class="col-2">Cena</th>
-                <td class="col-7">{{ offer.price }}
-                </td>
+                <th scope="row" class="col-2">Cena: </th>
+                <td class="col-3"> {{ oferta.price }} </td>
+                <th scope="row" class="col-2">Realizacja: </th>
+                <td class="col-5"> {{ oferta.lead_time }} dni</td>
             </tr>
-            <tr class="d-flex">
-                <th scope="row" class="col-2">Czas realizacji (w dniach)</th>
-                <td class="col-7">
-                    {{ offer.lead_time }}
-                </td>
-            </tr>
-             <tr class="d-flex">
-                <th scope="row" class="col-2">Ilość ocen</th>
-                <td class="col-7">
-                    {{ offer.votes  }}
-                </td>
-            </tr>
-            </tbody>
         </table>
+        <br>
 
         <div class="row d-flex">
             <div class="col-5 border-bottom border-3"><h3
-                    class="text-uppercase">Dane kontaktowe</h3></div>
-            <div class="col-1"></div>
+                    class="text-uppercase">Skład Komisji</h3></div>
+            <div class="col-2"></div>
             <div class="col-5 border-bottom border-3"><h3
-                    class="text-uppercase">Oceniający</h3></div>
+                    class="text-uppercase">Oceny</h3></div>
         </div>
         <div class="row d-flex">
-            <div class="col-7 p-4">
-                <p> {{ offer.company_address }}</p>
-                <p> {{ offer.company_mail }}</p>
-            </div>
-            <div class="col-1"></div>
             <ul class="col-5 p-4 list-unstyled">
-                <li>{{ recipe.ingredients }}</li>
+                <li>{{ oferta.updated }}</li>
+            </ul>
+            <div class="col-2"></div>
+            <ul class="col-5 p-4 list-unstyled">
+                <li>{{ oferta.votes }}</li>
             </ul>
         </div>
-            {% endfor %}
     </div>
 </div>
 {% endblock content %}

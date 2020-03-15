@@ -1,11 +1,18 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from .models import *
-from django.views import View
 import random
+from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from .models import *
+from .forms import *
+from django.views import View
 from django.core.paginator import Paginator
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
-from .forms import *
-from django.http import HttpResponse
+
+from django.http import HttpResponse, HttpResponseRedirect
+from django.utils.decorators import method_decorator
+# from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
 
 
 # Create your views here.
@@ -36,11 +43,10 @@ class MainView(View):
                                                   })
 
 
-class OfferDetailView(View):
-
-    def get(self, request, id):
-        offerts = Offert.objects.filter(id=id)
-        return render(request, 'offer_detail.html', context={'offerts': offerts})
+class OfferDetailView(DetailView):
+    model = Offert
+    context_object_name = 'oferta'
+    template_name = 'offer_detail.html'
 
 
 class OfferListView(View):
@@ -91,19 +97,9 @@ class ProcedureDetailView(View):
                       context={'procedure': procedure, 'offerts': offerts, 'employees': employees})
 
 
-class ProcedureAddView(View):
-
-    def get(self, request):
-        form = AddProcedureForm()
-        return render(request, 'procedure_add.html', {'form': form})
-
-    def post(self, request):
-        form = AddProcedureForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponse(f"{form.cleaned_data['numer']} - Dodano postępowanie.")
-        else:
-            return render(request, 'procedure_add.html', {'form': form})
+class ProcedureAddView(CreateView):
+    pass
+    """ widok dodawania Postępowania i przypisania pracowników"""
 
 
 class ProcedureAddOfferView(View):
