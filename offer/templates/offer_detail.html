@@ -7,7 +7,7 @@
         <div class="row border-bottom border-3">
             <div class="col"><h3 class="color-header text-uppercase">Szczegóły oferty: </h3></div>
             <div class="col d-flex justify-content-end mb-2"><a href= "{% url 'offer-list' %}"
-                    class="btn btn-color rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a></div>
+                    class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a></div>
         </div>
         <div class="row border-bottom border-2">
             <div class="col"><h4 class="color-header text-uppercase">{{oferta.procedure}} </h4></div>
@@ -27,7 +27,7 @@
             </tr>
             <tr class="d-flex">
                 <th scope="row" class="col-2">Cena: </th>
-                <td class="col-3"> {{ oferta.price }} </td>
+                <td class="col-3"> {{ oferta.price|floatformat:-2 }} </td>
                 <th scope="row" class="col-2">Realizacja: </th>
                 <td class="col-5"> {{ oferta.lead_time }} dni</td>
             </tr>
@@ -52,4 +52,5 @@
         </div>
     </div>
 </div>
+
 {% endblock content %}

@@ -1,0 +1,41 @@
+{% extends "__base__.html" %}
+{% block title %}{% endblock %}
+{% block content %}
+{%  for procedure in zamowienie %}
+<ul>
+    <li> {{ procedure.id }} - {{ procedure.publish }} - {{ procedure.numer }}</li>
+</ul>
+{% endfor %}
+<br>
+{% if  %}
+
+{%  for pracownik in funkcje %}
+<ul>
+    <li> {{ pracownik.procedure_id}} - {{ pracownik.procedure }} - {{ pracownik.employee }} - {{ pracownik.roles }}</li>
+</ul>
+{% endfor %}
+{% endif %}
+
+    {{ zamowienie_counter }}
+    {{ funkcje_counter }}
+
+{% endblock %}
+
+{#<h1> Lista Role</h1>#}
+{#    <table class="table">#}
+{#    <tr> <th>Lp.</th> <th> procedure </th> <th> employee </th> <th> role </th> </tr>#}
+{#    {% for p in object_list %}#}
+{#    <tr>#}
+{#        <td> {{ forloop.counter }}</td>#}
+{#        <td> {{ p.procedure_id }}, {{ p.procedure }}</td>#}
+{#        <td> {{ p.employee_id }}, {{ p.employee }}</td>#}
+{#        <td> {{ p.roles }}</td>#}
+{#    </tr>#}
+{#    {% endfor %}#}
+{#    </table>#}
+{##}
+{#{%  for procedure in zamowienie %}#}
+{#<ul>#}
+{#    <li> {{ procedure.procedure.id }}</li>#}
+{#</ul>#}
+{#{% endfor %}#}

@@ -11,16 +11,16 @@ DEPARTMENT = (
 )
 
 STATUS_CHOICES = (
-    ('draft', 'Roboczy'),
-    ('approved', 'Zatwierdzony'),
-    ('rejected', 'Odrzucony'),
+    ('roboczy', 'Roboczy'),
+    ('zatwierdzony', 'Zatwierdzony'),
+    ('odrzucony', 'Odrzucony'),
 )
 
 ROLE_CHOICES = (
-    ('member', 'Członek Komisji'),
-    ('secretary', 'Sekretarz'),
-    ('chairman', 'Przewodniczący'),
-    ('director', 'Dyrektor'),
+    ('Członek Komisji', 'Członek Komisji'),
+    ('Sekretarz', 'Sekretarz'),
+    ('Przewodniczący', 'Przewodniczący'),
+    ('Dyrektor', 'Dyrektor'),
 )
 
 
@@ -59,9 +59,15 @@ class Procedure(models.Model):
 class Role(models.Model):
     procedure = models.ForeignKey(Procedure, on_delete=models.CASCADE)
     employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
-    roles = models.CharField(max_length=10,
+    roles = models.CharField(max_length=20,
                              choices=ROLE_CHOICES,
                              default='member')
+
+    class Meta:
+        ordering = ('procedure',)
+
+    def __str__(self):
+        return f"{self.roles} {self.employee}"
 
 
 class Offert(models.Model):
@@ -74,3 +80,9 @@ class Offert(models.Model):
     procedure = models.ForeignKey(Procedure, on_delete=models.CASCADE)
     updated = models.DateTimeField(auto_now_add=True)
     votes = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ('submission',)
+
+    def __str__(self):
+        return f"{self.submission} {self.procedure.numer} {self.company_name}"

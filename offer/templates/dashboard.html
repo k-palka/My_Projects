@@ -36,8 +36,35 @@
 </div>
 <div class="m-4 p-4 border-dashed">
     <h2 class="dashboard-content-title">
-        <span>Ostatnio dodane postępowanie:</span> {{ last_added_procedure.numer }} <br> {{ last_added_procedure.title }}
+        <span>Ostatnio dodane postępowanie:</span><p> {{ last_added_procedure.numer }} <br> {{ last_added_procedure.title }} </p>
     </h2>
+        <tr class="d-flex">
+            <td class="col-7"> </td>
+    </tr>
+</div>
+
+<div class="m-4 p-4 border-dashed">
+    <h2 class="dashboard-content-title">
+        <span>Ostatnio otrzymane oferty:</span> </h2>
+    <tbody class="text-color-lighter">
+            {%  for oferts in latest_oferts_lists %}
+        <table class="table">
+             <tr class="d-flex">
+                <td class="col-2 ">{{ oferts.submission }}</td>
+                <td class="col-4">{{ oferts.procedure.numer }}</td>
+                <td class="col-4">{{ oferts.company_name }}</td>
+                <td class="col-2 center">
+                    <a href="{% url 'offer-detail' oferts.id %}">
+                        <button type="button" class="btn btn-primary rounded-1">Szczegóły</button>
+                    </a>
+                </td>
+             </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
 </div>
+
+
+
 {% endblock content %}

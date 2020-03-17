@@ -1,67 +1,61 @@
 {% extends "__base__.html" %}
 {% block title %}{% endblock %}
 {% block content %}
-<div class="dashboard-content border-dashed p-3 m-4 view-height">
+    <div class="dashboard-content border-dashed p-3 m-4 view-height">
 
-    <div class="row border-bottom border-3 p-1 m-1">
-        <div class="col noPadding"><h3 class="color-header text-uppercase">Lista
-            Ofert</h3></div>
-        <div class="col noPadding d-flex justify-content-end mb-2"><a
-                href="{% url 'add-offer' %}"
-                class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Dodaj
-            ofertę</a></div>
-    </div>
+        <div class="row border-bottom border-3 p-1 m-1">
+            <div class="col noPadding"><h3 class="color-header text-uppercase">Lista
+                Ofert</h3></div>
+            <div class="col noPadding d-flex justify-content-end mb-2"><a
+                    href="{% url 'add-offer' %}"
+                    class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Dodaj
+                ofertę</a></div>
+        </div>
 
-    <table class="table border-bottom schedules-content">
-        <thead>
-        <tr class="d-flex text-color-darker">
-            <th scope="col" class="col-1">ID</th>
-            <th scope="col" class="col-2">FIRMA</th>
-            <th scope="col" class="col-5">POSTĘPOWANIE</th>
-            <th scope="col" class="col-5 center">AKCJE</th>
-        </tr>
-        </thead>
-        <tbody class="text-color-lighter">
-        {% for offert in offerts %}
-        <tr class="d-flex">
-            <th scope="row" class="col-1">{{ forloop.counter0|add:offerts.start_index}}</th>
-
-            <td class="col-2">
-                {{ offert.company_name }} ({{ offert.votes }})
-            </td>
-
-            <td class="col-5">
-                {{ offert.procedure }}
-            </td>
-
-            <td class="col-5 d-flex align-items-center justify-content-center flex-wrap">
-                <a href="#"
-                   class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
-                <a href="{% url 'offer-detail' offert.id %}"
-                   class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
-                <a href="offer_edit.html"
-                   class="btn btn-warning rounded-0 text-light m-1">Edytuj</a>
-            </td>
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-        <div class="pagination center" >
+        <table class="table border-bottom schedules-content">
+            <thead>
+            <tr class="d-flex text-color-darker">
+                <th scope="col" class="col-0">LP</th>
+                <th scope="col" class="col-2">DATA</th>
+                <th scope="col" class="col-2">FIRMA</th>
+                <th scope="col" class="col-5">POSTĘPOWANIE</th>
+                <th scope="col" class="col-1">OCENY</th>
+                <th scope="col" class="col-2 center"> </th>
+            </tr>
+            </thead>
+            <tbody class="text-color-lighter">
+            {% for offert in offerts %}
+                <tr class="d-flex">
+                    <th class="col-0">{{ forloop.counter0|add:offerts.start_index }}</th>
+                    <td class="col-2" > {{ offert.submission }} </td>
+                    <td class="col-2"><a href="{% url 'offer-detail' offert.id %}">
+                        {{ offert.company_name }} </a></td>
+                    <td class="col-5"> {{ offert.procedure }} </td>
+                    <td class="col-1"> {{ offert.votes }} </td>
+                    <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
+                        <a href="#"
+                           class="btn btn-info rounded-0 text-light m-1">Oceń</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="pagination center">
         <span class="step-links">
         {% if offerts.has_previous %}
             <a href="?page={{ offerts.previous_page_number }}">&laquo; poprzednia| </a>
         {% endif %}
-        {% for page in offerts.paginator.page_range %}
-            {% if page != 1 %}
-            <a href="?page={{ page }}">| {{ page }}</a>
-            {% else %}
-            <a href="?page={{ page }}">{{ page }}</a>
+            {% for page in offerts.paginator.page_range %}
+                {% if page != 1 %}
+                    <a href="?page={{ page }}">| {{ page }}</a>
+                {% else %}
+                    <a href="?page={{ page }}">{{ page }}</a>
+                {% endif %}
+            {% endfor %}
+            {% if offerts.has_next %}
+                <a href="?page={{ offerts.next_page_number }}">| następna &raquo;</a>
             {% endif %}
-        {% endfor %}
-        {% if offerts.has_next %}
-        <a href="?page={{ offerts.next_page_number }}">| następna &raquo;</a>
-        {% endif %}
         </span>
         </div>
-</div>
+    </div>
 {% endblock content %}

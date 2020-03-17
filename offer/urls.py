@@ -12,5 +12,6 @@ urlpatterns = [
     path('procedure/<int:id>/', ProcedureDetailView.as_view(), name='procedure-detail'),
     path('procedure/add/', ProcedureAddView.as_view(), name='add-procedure'),
     path('procedure/add-offer/', ProcedureAddOfferView.as_view(), name='add-offer-to-procedure'),
+    path('test/', TestView.as_view(), name='test'),
 
 ]
