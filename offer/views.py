@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 import random
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from .models import *
 from .forms import *
@@ -75,8 +75,8 @@ class OfferModifyView(View):
 class ProcedureListView(View):
 
     def get(self, request):
-        procedures_list = Procedure.objects.order_by('-numer')
-        paginator = Paginator(procedures_list, 3)
+        procedures_list = Procedure.objects.order_by('-publish')
+        paginator = Paginator(procedures_list, 5)
 
         page = request.GET.get('page')
         procedures = paginator.get_page(page)
@@ -85,24 +85,39 @@ class ProcedureListView(View):
         return render(request, 'procedure_list.html', context)
 
 
-
-# class ProcedureDetailView(DetailView):
-#     model = Procedure
-#     template_name = 'procedure_details.html'
-
 class ProcedureDetailView(View):
 
     def get(self, request, id):
         procedure = Procedure.objects.get(id=id)
         offerts = Offert.objects.filter(procedure_id=id).order_by('price')
-        employees = Role.objects.filter(employee_id=id).distinct()
+        offerts_list = list(offerts)
+        employees = Role.objects.filter(procedure_id=id).distinct()
+        empl_list = list(employees)
         return render(request, 'procedure_details.html',
-                      context={'procedure': procedure, 'offerts': offerts, 'employees': employees})
+                      context={'procedure': procedure, 'offerts': offerts,
+                               'employees': employees, 'empl_list': empl_list,
+                               'offerts_list': offerts_list})
 
 
-class ProcedureAddView(CreateView):
-    pass
-    """ widok dodawania Postępowania i przypisania pracowników"""
+class ProcedureAddView(View):
+    def get(self, request):
+        return render(request, "procedure_add.html")
+
+    def post(self, request):
+        numer = request.POST.get('procedure_numer')
+        title = request.POST.get('procedure_title')
+        publish = request.POST.get('procedure_publish')
+        open = request.POST.get('procedure_open')
+        close = request.POST.get('procedure_close')
+        status = request.POST.get('procedure_status')
+
+        if "" in (numer, title, publish, status):
+            context = {'alert': 'Wypełnij poprawnie wszystkie pola!'}
+            return render(request, 'procedure_add.html', context)
+
+        Procedure.objects.create(numer=numer, title=title, publish=publish,
+                                 open=open, close=close, status=status)
+        return redirect(reverse('procedure-list'))
 
 
 class ProcedureAddOfferView(View):
@@ -115,40 +130,16 @@ class ProcedureAddOfferView(View):
         context = {'zamowienia': zamowienia, 'oferty': oferty, 'komisja': komisja, 'funkcja': funkcja}
         return render(request, 'procedure_add_offer.html', context)
 
-    # def post(self, request):
-    #     zamowienie_id = request.POST.get('procedure_id')
-    #     zamowienie = Procedure.objects.get(id=zamowienie_id)
 
-
-
-
-#     def post(self, request):
-#         plan_id = request.POST.get('plan_id')
-#         plan = Plan.objects.get(id=plan_id)
-#         recipe_name = request.POST.get('recipe_name')
-#         recipe = Recipe.objects.get(name=recipe_name)
-#         meal_name = request.POST.get('meal_name')
-#         day_name = request.POST.get('day_name')
-#         day = DayName.objects.get(name=day_name)
-#         meal_number = request.POST.get('meal_number')
+# class ProcedureAddView(CreateView):
+#     model = Procedure
+#     fields = ['numer', 'title', 'publish', 'slug'
+#               'open', 'status']
+#     template_name = 'procedure_add.html'
+#     success_url = reverse_lazy('procedure-detail')
 #
-#         RecipePlan.objects.create(plan=plan, recipe=recipe, meal_name=meal_name, order=meal_number, day_name=day)
-#
-#         return redirect(reverse('plan-detail', kwargs={'id': plan_id}))
-
-
-# class TestView(ListView):
-#     model = Role
-#     template_name = "test.html"
+#     def get_success_url(self, **kwargs):
+#         return reverse_lazy('status', kwargs={'status': self.object.status})
 
 class TestView(View):
-
-    def get(self, request):
-        zamowienie = Procedure.objects.all()
-        funkcje = Role.objects.all()
-        zamowienie_counter = Procedure.objects.count()
-        funkcje_counter = Role.objects.count()
-        return render(request, "test.html", {'funkcje_counter': funkcje_counter,
-                                            'zamowienie_counter': zamowienie_counter,
-                                                  'zamowienie': zamowienie,
-                                                  'funkcje': funkcje,})
+    pass

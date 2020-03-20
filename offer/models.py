@@ -40,11 +40,11 @@ class Employee(models.Model):
 class Procedure(models.Model):
     numer = models.CharField(max_length=20)
     title = models.CharField(max_length=250)
-    slug = models.SlugField(max_length=250, unique_for_date='publish')
+    # slug = models.SlugField(max_length=250, unique_for_date='publish')
     publish = models.DateField(default=timezone.now)
     open = models.DateField(blank=True, null=True)
     close = models.DateField(blank=True, null=True)
-    status = models.CharField(max_length=10,
+    status = models.CharField(max_length=20,
                               choices=STATUS_CHOICES,
                               default='draft')
     employees = models.ManyToManyField(Employee, through='Role', through_fields=('procedure', 'employee'))

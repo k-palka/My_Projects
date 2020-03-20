@@ -14,13 +14,12 @@ admin.site.register(Employee, EmployeeAdmin)
 
 
 class ProcedureAdmin(admin.ModelAdmin):
-    list_display = ('numer', 'slug', 'title', 'publish', 'open', 'close', 'status')
+    list_display = ('numer', 'title', 'publish', 'open', 'close', 'status')
     list_filter = ('numer', 'status', 'publish', 'open', 'close')
     search_fields = ('numer', 'status')
     raw_id_fields = ('employees',)
     date_hierarchy = 'publish'
     ordering = ['status', 'publish']
-    prepopulated_fields = {'slug': ('title',)}
 
 
 admin.site.register(Procedure, ProcedureAdmin)

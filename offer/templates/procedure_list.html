@@ -18,27 +18,23 @@
         <table class="table border-bottom">
             <thead>
             <tr class="d-flex">
-                <th class="col-1">ID</th>
+                <th class="col-0">LP</th>
+                <th class="col-3">OGŁOSZENIE</th>
                 <th class="col-2">NUMER</th>
-                <th class="col-7">TYTUŁ</th>
-                <th class="col-2 center">AKCJE</th>
+                <th class="col-5">TYTUŁ</th>
+                <th scope="row" class="col-2 center">STATUS</th>
             </tr>
             </thead>
             <tbody class="text-color-lighter">
             {% for procedure in procedures %}
             <tr class="d-flex">
-                <td class="col-1">{{ forloop.counter0|add:procedures.start_index}}</td>
+                <td class="col-0">{{ forloop.counter0|add:procedures.start_index}}</td>
+                <td class="col-3">{{ procedure.publish }}</td>
                 <td class="col-2">{{ procedure.numer }}</td>
-                <td class="col-7">
+                <td class="col-5">
                     <a href="{% url 'procedure-detail' procedure.id %}">{{ procedure.title }}</a>
                 </td>
-                <td class="col-2 d-flex align-items-center justify-content-center flex-wrap">
-                    <a href="" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
-                    <a href="{% url 'procedure-detail' procedure.id %}"
-                       class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
-                    <a href=""
-                       class="btn btn-warning rounded-0 text-light m-1">Edytuj</a>
-                </td>
+                <td class="col-2">{{ procedure.status }}</td>
             </tr>
               {% empty %}
                 Nie ma aktualnych postępowań.

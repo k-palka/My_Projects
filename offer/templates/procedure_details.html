@@ -22,47 +22,47 @@
             <div class="form-group row"> <span class="col-sm-2 label-size col-form-label"> Tytuł </span>
                 <div class="col-sm-10"> <p class="schedules-text"> {{ procedure.title }} </p> </div>
             </div>
-        </div>
+     </div>
         <table class="table borderless">
-            <tbody>
-            <tr class="d-flex">
-                <th scope="row" class="col-2">Ogłoszenie: </th>
-                <td class="col-3"> {{ procedure.publish }} </td>
-                <th scope="row" class="col-2">Otwarcie: </th>
-                <td class="col-5"> {{ procedure.open }}</td>
+
+        <thead>
+            <tr class="d-flex center">
+                <th scope="row" class="col-4">Ogłoszenie: </th>
+                <th scope="row" class="col-4">Otwarcie: </th>
+                <th scope="row" class="col-4">Status: </th>
+
             </tr>
+        </thead>
+
+        <tbody class="text-color-lighter">
+            <tr class="d-flex center">
+                <td class="col-4"> {{ procedure.publish }} </td>
+                <td class="col-4"> {{ procedure.open }}</td>
+                <td class="col-4"> {{ procedure.status }}</td>
+            </tr>
+        </tbody>
         </table>
 
+        <div class="row d-flex">
+            <div class="col-4 border-bottom border-3"><h3
+                    class="text-uppercase">Skład Komisji</h3></div>
+            <div class="col-1"></div>
+            <div class="col-7 border-bottom border-3"><h3
+                    class="text-uppercase">Oferty</h3></div>
+        </div>
+        <div class="row d-flex">
+            <ul class="col-4 p-4 list-unstyled">
+                {% for empl in empl_list %}
+                <li>{{ empl }}</li>
+                {% endfor %}
+            </ul>
+            <div class="col-1"></div>
+            <ul class="col-7 p-4 list-unstyled">
+                {% for object in offerts_list %}
+                <li>{{ object.submission }} - <a href="{% url 'offer-detail' object.id %}">
+                    {{ object.company_name }}</a>   cena: {{ object.price }}    czas: {{ object.lead_time }} dni</li>
+                {% endfor %}
+            </ul>
+        </div>
 
-        {% for procedure in procedures %}
-        <table class="table">
-            <thead>
-            <tr class="d-flex">
-                <th class="col-2">{{day.name}}</th>
-                <th class="col-7"></th>
-                <th class="col-1"></th>
-                <th class="col-2"></th>
-            </tr>
-            </thead>
-            <tbody class="text-color-lighter">
-            {% for offert in offerts %}
-            {% if offert.procedure.numer == procedure.numer %}
-            <tr class="d-flex">
-                <td class="col-2">{{offert.company_name}}</td>
-                <td class="col-7">{{offert.offert.price}}</td>
-                <td class="col-1 center">
-                    <a href= "offer_detail.html" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
-                </td>
-                <td class="col-2 center">
-                    <a href="{% url 'offer-detail' offert.offert.id %}"
-                       class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
-                </td>
-            </tr>
-            {% endif %}
-            {% endfor %}
-            </tbody>
-        </table>
-        {% endfor %}
-    </div>
-</div>
 {% endblock content %}
