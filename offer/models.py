@@ -23,6 +23,11 @@ ROLE_CHOICES = (
     ('Dyrektor', 'Dyrektor'),
 )
 
+RATES_CHOICES = (
+    ('PRZYJMUJĘ', 'OK'),
+    ('ODRZUCAM', 'NIE OK')
+)
+
 
 class Employee(models.Model):
     first_name = models.CharField(max_length=20)
@@ -79,10 +84,26 @@ class Offert(models.Model):
     lead_time = models.PositiveIntegerField(help_text='w dniach')
     procedure = models.ForeignKey(Procedure, on_delete=models.CASCADE)
     updated = models.DateTimeField(auto_now_add=True)
-    votes = models.IntegerField(default=0)
 
     class Meta:
         ordering = ('submission',)
 
     def __str__(self):
         return f"{self.submission} {self.procedure.numer} {self.company_name}"
+
+
+class Evaluation(models.Model):
+    offert = models.ForeignKey(Offert, on_delete=models.CASCADE)
+    author = models.CharField(max_length=80)
+    comment_text = models.TextField()
+    created = models.DateField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    rates = models.CharField(max_length=20,
+                             choices=RATES_CHOICES,
+                             default=None)
+
+    class Meta:
+        ordering = ('created',)
+
+    def __str__(self):
+        return '{} {} {}'.format(self.created, self.author, self.comment_text)

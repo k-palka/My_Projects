@@ -1,16 +1,17 @@
 {% extends "__base__.html" %}
-{% block title %}{% endblock %}
+{% load humanize %}
+{% block title %}Szczegóły oferty{% endblock %}
 {% block content %}
 <div class="dashboard-content border-dashed p-3 m-4 view-height">
 
     <div class="mt-4 ml-4 mr-4">
         <div class="row border-bottom border-3">
-            <div class="col"><h3 class="color-header text-uppercase">Szczegóły oferty: </h3></div>
+            <div class="col"><h3 class="color-header text-uppercase" style="color: #4b4c4a ">Szczegóły oferty: </h3></div>
             <div class="col d-flex justify-content-end mb-2"><a href= "{% url 'offer-list' %}"
-                    class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a></div>
+                    class="btn btn-info rounded-0 pt-2 pb-2 pr-4 pl-4 center">Powrót</a></div>
         </div>
         <div class="row border-bottom border-2">
-            <div class="col"><h4 class="color-header text-uppercase">{{oferta.procedure}} </h4></div>
+            <div class="col"><h4 class="color-header text-uppercase" style="color: green">{{oferta.procedure}} </h4></div>
             </div>
         <table class="table borderless">
             <tbody>
@@ -27,7 +28,7 @@
             </tr>
             <tr class="d-flex">
                 <th scope="row" class="col-2">Cena: </th>
-                <td class="col-3"> {{ oferta.price|floatformat:-2 }} </td>
+                <td class="col-3"> {{ oferta.price|intcomma}} zł</td>
                 <th scope="row" class="col-2">Realizacja: </th>
                 <td class="col-5"> {{ oferta.lead_time }} dni</td>
             </tr>
@@ -35,22 +36,49 @@
         <br>
 
         <div class="row d-flex">
-            <div class="col-5 border-bottom border-3"><h3
-                    class="text-uppercase">Skład Komisji</h3></div>
-            <div class="col-2"></div>
-            <div class="col-5 border-bottom border-3"><h3
+            <div class="col-4 border-bottom border-3">
+                <h3 class="text-uppercase">Skład Komisji</h3></div>
+            <div class="col-1"></div>
+            <div class="col-4 border-bottom border-3">
+                <h3 class="text-uppercase">Komentarze</h3></div>
+            <div class="col-1"></div>
+            <div class="col-2 border-bottom border-3"><h3
                     class="text-uppercase">Oceny</h3></div>
         </div>
         <div class="row d-flex">
-            <ul class="col-5 p-4 list-unstyled">
-                <li>{{ oferta.updated }}</li>
+            <ol class="col-4 p-4 list-unstyled">
+                {% for object in komisja_list %}
+                <li>{{ object }}</li>
+                {% endfor %}
+            </ol>
+        <div class="col-1" style="font-size: small"></div>
+            <ol class="col-4 p-4 type=1">
+                {% for komentarz in komentarz_list %}
+                    <li> <div style="font-size: medium; font-weight: bold"> {{ komentarz.created }}: {{ komentarz.author }}</div>
+                <p style="font-size: medium; background-color: lightgray; color: #4b4c4a"> {{ komentarz.comment_text }}</p></li>
+                {% endfor %}
+            </ol>
+        <div class="col-1"></div>
+
+            <ul class="col-2 p-4 type=1">
+            {% for komentarz in komentarz_list %}
+                    {% if komentarz.rates == 'PRZYJMUJĘ'%}
+                        <li> <div style="font-size: medium"> {{ komentarz.author }}</div>
+                            <div style="font-size: medium; background-color: darkgreen; color: white; text-align: center "> {{ komentarz.rates }}</li>
+                    {% elif komentarz.rates == 'ODRZUCAM' %}
+                        <li> <div style="font-size: medium"> {{ komentarz.author }}</div>
+                            <div style="font-size: medium; background-color: red; color: white; text-align: center "> {{ komentarz.rates }}</li>
+                    {%  else %}
+                        <a href="form.html"> Dodaj ocenę </a>
+                    {% endif %}
+            {% endfor %}
             </ul>
-            <div class="col-2"></div>
-            <ul class="col-5 p-4 list-unstyled">
-                <li>{{ oferta.votes }}</li>
-            </ul>
+                    <div class="col d-flex justify-content-end mb-4 center"><a href= "{% url 'evaluation-create' %}"
+                    class="btn btn-info rounded-0 pt-2 pb-2 pr-6 pl-6 center">Dodaj komentarz/ocenę</a></div>
         </div>
     </div>
+    </div>
 </div>
+
 
 {% endblock content %}

@@ -1,4 +1,5 @@
 {% extends "__base__.html" %}
+{% load humanize %}
 {% block title %}{% endblock title %}
 {% block content %}
 <div class="dashboard-content border-dashed p-3 m-4 view-height">
@@ -17,10 +18,10 @@
         <div class="schedules-content-header">
             <div class="form-group row">
                 <span class="col-sm-2 label-size col-form-label"> Numer </span>
-                <div class="col-sm-10"> <p class="schedules-text"> {{ procedure.numer }} </p> </div>
+                <div class="col-sm-10"> <p class="schedules-text" > <FONT SIZE=5>{{ procedure.numer }} </FONT></p> </div>
             </div>
             <div class="form-group row"> <span class="col-sm-2 label-size col-form-label"> Tytuł </span>
-                <div class="col-sm-10"> <p class="schedules-text"> {{ procedure.title }} </p> </div>
+                <div class="col-sm-10"> <p class="schedules-text">  <FONT SIZE=5>{{ procedure.title }} </FONT></p> </div>
             </div>
      </div>
         <table class="table borderless">
@@ -60,7 +61,7 @@
             <ul class="col-7 p-4 list-unstyled">
                 {% for object in offerts_list %}
                 <li>{{ object.submission }} - <a href="{% url 'offer-detail' object.id %}">
-                    {{ object.company_name }}</a>   cena: {{ object.price }}    czas: {{ object.lead_time }} dni</li>
+                    {{ object.company_name }}</a>   cena: {{ object.price|intcomma }}    czas: {{ object.lead_time }} dni</li>
                 {% endfor %}
             </ul>
         </div>

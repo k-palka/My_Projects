@@ -1,18 +1,10 @@
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 import random
-from django.urls import reverse_lazy, reverse
-from django.utils.decorators import method_decorator
-from .models import *
+from django.urls import reverse
 from .forms import *
 from django.views import View
 from django.core.paginator import Paginator
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
-
-from django.http import HttpResponse, HttpResponseRedirect
-from django.utils.decorators import method_decorator
-# from django.views.generic.edit import CreateView
-from django.urls import reverse_lazy
 
 
 # Create your views here.
@@ -45,10 +37,20 @@ class MainView(View):
                                                   })
 
 
-class OfferDetailView(DetailView):
-    model = Offert
-    context_object_name = 'oferta'
-    template_name = 'offer_detail.html'
+class OfferDetailView(View):
+
+    def get(self, request, id):
+        oferta = Offert.objects.get(id=id)
+        komisja = Role.objects.filter(procedure_id=oferta.procedure_id).distinct()
+        komisja_list = list(komisja)
+        komentarz = Evaluation.objects.filter(offert_id=oferta.id).distinct()
+        komentarz_list = list(komentarz)
+        context = {'oferta': oferta,
+                   'komisja': komisja,
+                   'komisja_list': komisja_list,
+                   'komentarz': komentarz,
+                   'komentarz_list': komentarz_list}
+        return render(request, 'offer_detail.html', context)
 
 
 class OfferListView(View):
@@ -64,12 +66,9 @@ class OfferListView(View):
         return render(request, 'offer_list.html', context)
 
 
-class OfferAddView(View):
-    pass
-
-
-class OfferModifyView(View):
-    pass
+class OfferAddView(CreateView):
+    model = Offert
+    fields = '__all__'
 
 
 class ProcedureListView(View):
@@ -131,15 +130,17 @@ class ProcedureAddOfferView(View):
         return render(request, 'procedure_add_offer.html', context)
 
 
-# class ProcedureAddView(CreateView):
-#     model = Procedure
-#     fields = ['numer', 'title', 'publish', 'slug'
-#               'open', 'status']
-#     template_name = 'procedure_add.html'
-#     success_url = reverse_lazy('procedure-detail')
-#
-#     def get_success_url(self, **kwargs):
-#         return reverse_lazy('status', kwargs={'status': self.object.status})
+class EvaluationDetailView(DetailView):
+    model = Evaluation
+    template_name = 'evaluation_details.html'
 
-class TestView(View):
-    pass
+
+class EvaluationListView(ListView):
+    model = Evaluation
+    template_name = 'evaluation_list.html'
+
+
+class EvaluationAddView(CreateView):
+    model = Evaluation
+    fields = '__all__'
+

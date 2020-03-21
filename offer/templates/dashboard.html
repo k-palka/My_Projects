@@ -16,9 +16,9 @@
                 </a>
         </div>
         <div class="menu-item border-dashed">
-            <a href="{% url 'add-offer-to-procedure' %}">
+            <a href="{% url 'evaluation-create' %}">
                 <i class="far fa-plus-square icon-plus-square"></i>
-                <span class="title"> dodaj <br> ofertę <br> do PZP</span>
+                <span class="title"> dodaj <br> ocenę</span>
             </a>
         </div>
     </div>
@@ -46,14 +46,14 @@
 <div class="m-4 p-4 border-dashed">
     <h2 class="dashboard-content-title">
         <span>Ostatnio otrzymane oferty:</span> </h2>
-    <tbody class="text-color-lighter">
+    <tbody class="text-color-lighter" style="height: min-content">
             {%  for oferts in latest_oferts_lists %}
         <table class="table">
-             <tr class="d-flex">
-                <td class="col-2 ">{{ oferts.submission }}</td>
+             <tr class="d-flex" style="height: min-content">
+                <td class="col-2">{{ oferts.submission }}</td>
                 <td class="col-4">{{ oferts.procedure.numer }}</td>
                 <td class="col-4">{{ oferts.company_name }}</td>
-                <td class="col-2 center">
+                <td class="col-2 center" style="height: min-content">
                     <a href="{% url 'offer-detail' oferts.id %}">
                         <button type="button" class="btn btn-primary rounded-0">Szczegóły</button>
                     </a>

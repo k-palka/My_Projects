@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Employee, Procedure, Offert, Role
+from .models import Employee, Procedure, Offert, Role, Evaluation
 
 
 # Register your models here.
@@ -26,7 +26,7 @@ admin.site.register(Procedure, ProcedureAdmin)
 
 
 class OffertAdmin(admin.ModelAdmin):
-    list_display = ('procedure', 'submission', 'company_name', 'price', 'lead_time', 'updated', 'votes')
+    list_display = ('procedure', 'submission', 'company_name', 'price', 'lead_time', 'updated')
     list_filter = ('procedure', 'company_name', 'price', 'lead_time')
     ordering = ['procedure', 'price', 'lead_time']
 
@@ -39,3 +39,13 @@ class RoleAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Role, RoleAdmin)
+
+
+class EvaluationAdmin(admin.ModelAdmin):
+    list_display = ('created', 'offert', 'author', 'comment_text', 'updated', 'rates')
+    list_filter = ('created', 'offert', 'author')
+    ordering = ['created', 'offert', 'author']
+    search_fields = ('created', 'offert', 'author')
+
+
+admin.site.register(Evaluation, EvaluationAdmin)

@@ -1,18 +1,18 @@
 from django import forms
 from .models import *
-from django.forms import ModelForm, Textarea
-from django.forms.models import inlineformset_factory
-from django.utils import timezone
 
 
-# class AddProcedureForm(forms.ModelForm):
-#     numer = forms.CharField(max_length=20)
-#     title = forms.CharField(max_length=250)
-#     publish = forms.DateField()
-#     open = forms.DateField()
-#     close = forms.DateField()
-#     status = forms.ChoiceField(choices=STATUS_CHOICES)
+class EvaluationForm(forms.ModelForm):
+    class Meta:
+        model = Evaluation
+        fields = '__all__'
 
-    # class Meta:
-    #     model = Procedure
-    #     fields = '__all__'
+class ProcedureForm(forms.ModelForm):
+    class Meta:
+        model = Procedure
+        fields = '__all__'
+
+class OffertForm(forms.ModelForm):
+    class Meta:
+        model = Offert
+        fields = '__all__'
