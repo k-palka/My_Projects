@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import *
-from . import views
+
 
 urlpatterns = [
     path('', IndexView.as_view(), name='index'),
@@ -15,5 +15,7 @@ urlpatterns = [
     path('evaluation/<int:pk>/', EvaluationDetailView.as_view(), name='evaluation'),
     path('evaluation/list/', EvaluationListView.as_view(), name='evaluation-list'),
     path('evaluation/create/', EvaluationAddView.as_view(), name='evaluation-create'),
+    path('login/', LoginView.as_view(), name="login"),
+    path('logout/', Logout.as_view(), name="logout"),
 
 ]

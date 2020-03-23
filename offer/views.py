@@ -1,3 +1,5 @@
+from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 import random
 from django.urls import reverse
@@ -144,3 +146,28 @@ class EvaluationAddView(CreateView):
     model = Evaluation
     fields = '__all__'
 
+
+class LoginView(View):
+    def get(self, request):
+        form = LoginForm()
+        return render(request, 'login.html', {'form': form})
+
+    def post(self, request):
+        form = LoginForm(request.POST)
+
+        if form.is_valid():
+            username = form.cleaned_data['login']
+            password = form.cleaned_data['password']
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return HttpResponse("Jesteś zalogowany")
+            else:
+                return HttpResponse('Błędny login lub hasło')
+        return HttpResponse('Błąd walidacji danych')
+
+
+class Logout(View):
+    def get(self, request):
+        logout(request)
+        return HttpResponse('Zostałeś wylogowany')
